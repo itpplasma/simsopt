@@ -87,7 +87,7 @@ class DOFs(GSONable, Hashable):
             free: Array of boolean values denoting if the DOFs is are free.
                   False values implies the corresponding DOFs are fixed
             lower_bounds: Lower bounds for the DOFs. Meaningful only if
-                DOF is not fixed. Default is np.NINF
+                DOF is not fixed. Default is -np.inf
             upper_bounds: Upper bounds for the DOFs. Meaningful only if
                 DOF is not fixed. Default is np.inf
         """
@@ -106,7 +106,7 @@ class DOFs(GSONable, Hashable):
             free = np.asarray(free, dtype=np.bool_)
 
         if lower_bounds is None:
-            lower_bounds = np.full(len(x), np.NINF)
+            lower_bounds = np.full(len(x), -np.inf)
         else:
             lower_bounds = np.asarray(lower_bounds, np.double)
 
@@ -1443,7 +1443,7 @@ class Optimizable(ABC_Callable, Hashable, GSONable, metaclass=OptimizableMeta):
     def full_fix(self, arr: Key) -> None:
         """
         Set the fixed/free attribute for all dofs on which this Optimizable object
-        depends. 
+        depends.
 
         Args:
             arr: List or array of the same length as ``full_x``, containing
@@ -1457,7 +1457,7 @@ class Optimizable(ABC_Callable, Hashable, GSONable, metaclass=OptimizableMeta):
     def full_unfix(self, arr: Key) -> None:
         """
         Set the fixed/free attribute for all dofs on which this Optimizable object
-        depends. 
+        depends.
 
         Args:
             arr: List or array of the same length as ``full_x``, containing
@@ -1524,14 +1524,14 @@ class Optimizable(ABC_Callable, Hashable, GSONable, metaclass=OptimizableMeta):
     @SimsoptRequires(plt is not None, "print method for DAG requires matplotlib")
     def plot_graph(self, show=True):
         """
-        Plot the directed acyclical graph that represents the dependencies of an 
+        Plot the directed acyclical graph that represents the dependencies of an
         ``Optimizable`` on its parents. The workflow is as follows: generate a ``networkx``
         ``DiGraph`` using the ``traversal`` function defined below.  Next, call ``graphviz_layout``
         which determines sensible positions for the nodes of the graph using the ``dot``
         program of ``graphviz``. Finally, ``networkx`` plots the graph using ``matplotlib``.
 
         Note that the tool ``network2tikz`` at `https://github.com/hackl/network2tikz <https://github.com/hackl/network2tikz>`_
-        can be used to convert the networkx ``DiGraph`` and positions to a 
+        can be used to convert the networkx ``DiGraph`` and positions to a
         latex file for publication.
 
         Args:
@@ -1543,7 +1543,7 @@ class Optimizable(ABC_Callable, Hashable, GSONable, metaclass=OptimizableMeta):
         """
 
         G = nx.DiGraph()
-        G.add_node(self.name) 
+        G.add_node(self.name)
 
         def traversal(root):
             for p in root.parents:
@@ -1826,4 +1826,3 @@ class OptimizableSum(Optimizable):
     def dJ(self):
         # Next line uses __add__ function for the Derivative class
         return sum(opt.dJ(partials=True) for opt in self.opts)
-
