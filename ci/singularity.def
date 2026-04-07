@@ -90,7 +90,9 @@ Stage: devel
     cd ..  &&  \
     rm -rf simsopt
 
-    echo ". /venv/bin/activate" >> $APPTAINER_ENVIRONMENT 
+    if [ -n "${APPTAINER_ENVIRONMENT:-}" ]; then
+        echo ". /venv/bin/activate" >> "${APPTAINER_ENVIRONMENT}"
+    fi
 
 %startscript
     . /venv/bin/activate
