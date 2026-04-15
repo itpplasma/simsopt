@@ -115,6 +115,7 @@ source = ["simsopt"]
 
 [tool.coverage.paths]
 source = [
-    "src",
-    "/**/lib*/python*/site-packages"
+    "src/simsopt",
+    "/**/site-packages/simsopt",
+    "/**/dist-packages/simsopt"
 ]
