@@ -50,8 +50,16 @@ from simsopt.mhd.gvec_dofs import GVECSurfaceDoFs
 from simsopt.mhd.gvec_interface import GvecInterfaceMixin
 from simsopt.mhd.gvec_quantities import Elongation as Elongation
 from simsopt.mhd.gvec_quantities import GVECQuantity as GVECQuantity
+from simsopt.mhd.gvec_quantities import (
+    GvecQuasisymmetryRatioResidual as GvecQuasisymmetryRatioResidual,
+)
 
-__all__ = ["Gvec", "GVECQuantity", "GVECSurfaceDoFs"]
+__all__ = [
+    "Gvec",
+    "GVECQuantity",
+    "GVECSurfaceDoFs",
+    "GvecQuasisymmetryRatioResidual",
+]
 
 default_parameters = dict(
     ProjectName="SIMSOPT-GVEC",
