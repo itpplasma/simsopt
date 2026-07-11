@@ -167,9 +167,17 @@ class GvecQuasisymmetryIntegrationTests(unittest.TestCase):
                 relative_error = abs(
                     gvec_residual.total() / vmec_residual.total() - 1.0
                 )
-                residual_count = gvec_residual.residuals().size
+                gvec_values = gvec_residual.residuals().reshape(11, 63, 64)
+                toroidal_indices = np.concatenate(([0], np.arange(63, 0, -1)))
+                mapped_values = -gvec_values[:, :, toroidal_indices].ravel()
+                vmec_values = vmec_residual.residuals()
+                vector_error = np.linalg.norm(mapped_values - vmec_values) / np.linalg.norm(
+                    vmec_values
+                )
+                residual_count = mapped_values.size
             finally:
                 eq.state.unbind()
 
         self.assertLess(relative_error, 1.0e-4)
+        self.assertLess(vector_error, 2.0e-2)
         self.assertEqual(residual_count, 11 * 63 * 64)
